@@ -11,9 +11,11 @@ app.use(cors());
 app.get("/fetch-terabox", async (req, res) => {
   const { url } = req.query;
 
-  if (!url || !url.includes("terabox.com")) {
-    return res.status(400).json({ error: "Invalid or missing Terabox URL" });
-  }
+  const validDomains = ["terabox.com", "teraboxapp.com", "bit.ly", "1fichier.com"];
+if (!url || !validDomains.some(domain => url.includes(domain))) {
+  return res.status(400).json({ error: "Invalid or unsupported Terabox URL" });
+}
+
 
   try {
     const response = await axios.get(url);
